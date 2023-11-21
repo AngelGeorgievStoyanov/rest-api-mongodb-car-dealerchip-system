@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import mongoose, { Types } from "mongoose";
-import { findByEmail, register } from "../services/userService";
+import { findByEmail, login, register } from "../services/userService";
 const authController = express.Router();
 
 authController.post("/register", async (req: Request, res: Response) => {
@@ -27,6 +27,16 @@ authController.post("/register", async (req: Request, res: Response) => {
   } catch (err: any) {
     console.log(err);
     res.status(400).json(err.message);
+  }
+});
+
+authController.post("/login", async (req: Request, res: Response) => {
+  try {
+    const token = await login(req.body.email, req.body.password);
+    res.status(200).json(token);
+  } catch (err: any) {
+    console.log(err);
+    res.status(401).json(err.message);
   }
 });
 

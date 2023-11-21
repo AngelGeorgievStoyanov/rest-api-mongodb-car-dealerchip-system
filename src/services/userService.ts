@@ -16,21 +16,37 @@ export async function register(
     email,
     firstName,
     lastName,
-    hashedPassword: await bcrypt.hash(hashedPassword, 10)
+    hashedPassword: await bcrypt.hash(hashedPassword, 10),
   });
+  return createToken(user);
+}
+
+export async function login(email: string, password: string) {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Incorrect email or password");
+  }
+
+  const match = await bcrypt.compare(password, user.hashedPassword);
+  if (!match) {
+    throw new Error("Incorrect email or password");
+  }
+
   return createToken(user);
 }
 
 function createToken(user: any) {
   const payload = {
     _id: user._id,
-    fullName: user.fullName,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
   };
 
   return {
     _id: user._id,
-    fullName: user.fullName,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     accessToken: jwt.sign(payload, secret),
   };
