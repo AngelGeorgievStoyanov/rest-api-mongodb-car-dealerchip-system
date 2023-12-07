@@ -41,6 +41,7 @@ function createToken(user: any) {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    role: user.role,
   };
 
   return {
@@ -48,10 +49,34 @@ function createToken(user: any) {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    role: user.role,
     accessToken: jwt.sign(payload, secret),
   };
 }
 
 export async function findByEmail(email: string) {
   return await User.findOne({ email: `${email}` });
+}
+
+
+export async function findAll() {
+  return User.find();
+}
+
+export async function getUserById(id: string) {
+
+  try {
+      const existing = await User.findById(id.trim())
+      if (existing) {
+
+          return existing
+      } else {
+          throw new Error('User not found')
+
+      }
+
+  } catch (err: any) {
+      throw new Error(err)
+  }
+
 }
