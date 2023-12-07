@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
 import jsonwebtoken from "jsonwebtoken";
 
 const secret = "rest-api-vue-js";
@@ -58,25 +58,30 @@ export async function findByEmail(email: string) {
   return await User.findOne({ email: `${email}` });
 }
 
-
 export async function findAll() {
   return User.find();
 }
 
 export async function getUserById(id: string) {
-
   try {
-      const existing = await User.findById(id.trim())
-      if (existing) {
-
-          return existing
-      } else {
-          throw new Error('User not found')
-
-      }
-
+    const existing = await User.findById(id.trim());
+    if (existing) {
+      return existing;
+    } else {
+      throw new Error("User not found");
+    }
   } catch (err: any) {
-      throw new Error(err)
+    throw new Error(err);
   }
+}
 
+export async function editUserById(id: string, user: IUser) {
+  let existing = await User.findById(id);
+  if (existing) {
+    existing.firstName = user.firstName;
+    existing.lastName = user.lastName;
+    existing.email = existing.email;
+    existing.role = user.role;
+    return existing.save();
+  }
 }

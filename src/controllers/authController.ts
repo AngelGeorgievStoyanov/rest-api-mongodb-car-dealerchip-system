@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import mongoose, { Types } from "mongoose";
 import {
+  editUserById,
   findAll,
   findByEmail,
   getUserById,
@@ -67,6 +68,27 @@ authController.get("/:id", async (req: Request, res: Response) => {
     res.status(200).json(user);
   } catch (err: any) {
     console.log(err);
+    res.status(404).json(err.message);
+  }
+});
+
+authController.put("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).json({
+        message: `No user with id :${id}`,
+      });
+    const existing = await getUserById(id);
+    if (existing) {
+      try {
+        const result = await editUserById(id, req.body);
+        res.status(200).json(result);
+      } catch (err: any) {
+        throw new Error(err);
+      }
+    }
+  } catch (err: any) {
     res.status(404).json(err.message);
   }
 });
