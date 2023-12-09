@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import authController from "./controllers/authController";
+import carsController from "./controllers/carsController";
 
 const port: number = 4000;
 const hostname: string = "localhost";
@@ -43,6 +44,7 @@ async function start() {
   });
 
   app.use("/users", authController);
+  app.use("/cars", carsController);
 
   app.listen(port, hostname, () => {
     console.log(`HTTP Server listening on: http://${hostname}:${port}`);
