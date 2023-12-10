@@ -4,7 +4,7 @@ export interface ICarBase {
   _id?: Types.ObjectId;
   refN: number;
   brand: string;
-  model: string;
+  carModel : string;
   publicPrice: number;
   kilometers: number;
   description: string;
@@ -29,7 +29,7 @@ export enum DocumentStatus {
 const carSchemaDefinition = {
   refN: { type: Number, required: true },
   brand: { type: String, required: true },
-  model: { type: String, required: true },
+  carModel : { type: String, required: true },
   publicPrice: { type: Number, required: true },
   kilometers: { type: Number, required: true },
   description: { type: String, required: true },
