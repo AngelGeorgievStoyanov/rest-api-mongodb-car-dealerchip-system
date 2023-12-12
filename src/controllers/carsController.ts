@@ -34,7 +34,7 @@ carsController.post("/create", async (req: Request, res: Response) => {
     );
     res.status(201).json(car);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(400).json(err.message);
   }
 });
@@ -44,7 +44,7 @@ carsController.get("/", async (req: Request, res: Response) => {
     const cars = await findAll();
     res.status(200).json(cars);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(400).json(err.message);
   }
 });
@@ -59,7 +59,7 @@ carsController.get("/:id", async (req: Request, res: Response) => {
     const car = await getCarById(id);
     res.status(200).json(car);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(404).json(err.message);
   }
 });
@@ -79,12 +79,12 @@ carsController.put("/:id", async (req: Request, res: Response) => {
 
         res.status(200).json(result);
       } catch (err: any) {
-        console.log(err);
+        console.log(err.message || err);
         throw new Error(err);
       }
     }
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(404).json(err.message);
   }
 });
@@ -107,7 +107,7 @@ carsController.delete("/:id", async (req: Request, res: Response) => {
       }
     }
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(404).json(err.message);
   }
 });

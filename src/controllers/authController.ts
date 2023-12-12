@@ -28,11 +28,11 @@ authController.post("/register", async (req: Request, res: Response) => {
 
       res.status(201).json(token);
     } catch (err: any) {
-      console.log(err);
+      console.log(err.message || err);
       res.status(400).json(err.message);
     }
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(400).json(err.message);
   }
 });
@@ -42,7 +42,7 @@ authController.post("/login", async (req: Request, res: Response) => {
     const token = await login(req.body.email, req.body.password);
     res.status(200).json(token);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(401).json(err.message);
   }
 });
@@ -52,7 +52,7 @@ authController.get("/", async (req: Request, res: Response) => {
     const users = await findAll();
     res.status(200).json(users);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(400).json(err.message);
   }
 });
@@ -67,7 +67,7 @@ authController.get("/:id", async (req: Request, res: Response) => {
     const user = await getUserById(id);
     res.status(200).json(user);
   } catch (err: any) {
-    console.log(err);
+    console.log(err.message || err);
     res.status(404).json(err.message);
   }
 });

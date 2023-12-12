@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import authController from "./controllers/authController";
 import carsController from "./controllers/carsController";
+import { admin } from "./admin/admin";
+import User from "./models/User";
+import { register } from "./services/userService";
 
 const port: number = 4000;
 const hostname: string = "localhost";
@@ -49,6 +52,18 @@ async function start() {
   app.listen(port, hostname, () => {
     console.log(`HTTP Server listening on: http://${hostname}:${port}`);
   });
+
+  const adminExsisting = await User.findOne({ email: "admin@admin.bg" });
+  if (!adminExsisting) {
+    register(
+      admin.email,
+      admin.firstName,
+      admin.lastName,
+      admin.passwors,
+      admin.role
+    );
+    console.log("Admin is created");
+  }
 
   app.on("error", (err) => {
     console.log("Server error:", err);

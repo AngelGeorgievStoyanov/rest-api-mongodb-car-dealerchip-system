@@ -61,7 +61,7 @@ export async function getCarById(id: string) {
       throw new Error("Car not found");
     }
   } catch (err: any) {
-    throw new Error(err);
+    throw new Error(err.message);
   }
 }
 
